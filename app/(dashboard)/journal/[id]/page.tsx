@@ -1,29 +1,42 @@
 import Editor from '@/components/Editor'
-import { getUserByClerkID } from '@/utils/auth'
 import { prisma } from '@/utils/db'
+import { auth } from '@clerk/nextjs/server'
 
-const getEntry = async (id) => {
-  const user = await getUserByClerkID()
+type Props = {
+  params: {
+    id: string
+  }
+}
+
+const EntryPage = async ({ params }: Props) => {
+  const { id } = params // ✅ korrekt: du får ut id utan att använda det direkt på props.params.id
+
+  const { userId } = await auth()
+  if (!userId) return <div>Du är inte inloggad</div>
+
+  const user = await prisma.user.findUnique({
+    where: { clerkId: userId },
+  })
+  if (!user) return <div>Användare hittades inte</div>
+
   const entry = await prisma.journalEntry.findUnique({
     where: {
       userId_id: {
-        userId: user?.id,
-        id,
+        userId: user.id,
+        id: id, // ✅ använd id från params
       },
     },
   })
 
-  return entry
-}
+  if (!entry) return <div>Journalinlägg hittades inte</div>
 
-const EntryPage = async ({ params }) => {
-  const entry = await getEntry(params.id)
   const analysisData = [
     { name: 'Summary', value: '' },
     { name: 'Subject', value: '' },
     { name: 'Mood', value: '' },
     { name: 'Negative', value: 'False' },
   ]
+
   return (
     <div className="h-full w-full grid grid-cols-3">
       <div className="col-span-2">

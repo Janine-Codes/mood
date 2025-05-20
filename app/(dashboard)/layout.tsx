@@ -1,6 +1,13 @@
-import { UserButton } from '@clerk/nextjs'
+'use client'
 
-const DashboardLayout = ({ children }) => {
+import { UserButton } from '@clerk/nextjs'
+import { ReactNode } from 'react'
+
+type Props = {
+  children: ReactNode
+}
+
+const DashboardLayout = ({ children }: Props) => {
   return (
     <div className="h-screen w-screen relative">
       <aside className="absolute w-[200px] top-0 left-0 h-full border-r border-black/10">

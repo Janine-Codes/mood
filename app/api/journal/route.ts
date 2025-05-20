@@ -1,15 +1,27 @@
-import { getUserByClerkID } from '@/utils/auth'
 import { prisma } from '@/utils/db'
+import { auth } from '@clerk/nextjs/server'
 import { revalidatePath } from 'next/cache'
 import { NextResponse } from 'next/server'
 
 export const POST = async () => {
-  const user = await getUserByClerkID()
-
-  if (!user) {
-    return new NextResponse('Unauthorized', { status: 401 })
+  // ✅ auth direkt här
+  const { userId } = await auth()
+  if (!userId) {
+    return new NextResponse('Inte inloggad', { status: 401 })
   }
 
+  // ✅ hämta användaren från databasen
+  const user = await prisma.user.findUnique({
+    where: {
+      clerkId: userId,
+    },
+  })
+
+  if (!user) {
+    return new NextResponse('Användare hittades inte', { status: 404 })
+  }
+
+  // ✅ skapa journalinlägg
   const entry = await prisma.journalEntry.create({
     data: {
       userId: user.id,
@@ -17,7 +29,9 @@ export const POST = async () => {
     },
   })
 
+  // ✅ uppdatera journal-sidan
   revalidatePath('/journal')
 
+  // ✅ svara tillbaka
   return NextResponse.json({ data: entry })
 }

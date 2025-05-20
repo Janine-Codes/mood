@@ -3,7 +3,7 @@ import { updateEntry } from '@/utils/api'
 import { useState } from 'react'
 import { useAutosave } from 'react-autosave'
 
-const Editor = ({ entry }) => {
+const Editor = ({ entry }: any) => {
   const [value, setValue] = useState(entry.content)
   const [isLoading, setIsLoading] = useState(false)
 
