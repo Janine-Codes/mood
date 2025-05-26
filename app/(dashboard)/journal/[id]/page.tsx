@@ -9,7 +9,7 @@ type Props = {
 }
 
 const EntryPage = async ({ params }: Props) => {
-  const { id } = params // ✅ korrekt: du får ut id utan att använda det direkt på props.params.id
+  const { id } = params
 
   const { userId } = await auth()
   if (!userId) return <div>Du är inte inloggad</div>
@@ -23,7 +23,7 @@ const EntryPage = async ({ params }: Props) => {
     where: {
       userId_id: {
         userId: user.id,
-        id: id, // ✅ använd id från params
+        id: id,
       },
     },
   })

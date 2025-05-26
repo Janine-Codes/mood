@@ -27,7 +27,7 @@ export const PATCH = async (
     where: {
       userId_id: {
         userId: user.id,
-        id, // ✅ direkt från context.params
+        id,
       },
     },
     data: {
