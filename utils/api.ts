@@ -28,3 +28,22 @@ export const createNewEntry = async () => {
     return data.data
   }
 }
+
+export const askQuestion = async (question: string) => {
+  const res = await fetch('/api/question', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ question }),
+  })
+
+  if (res.ok) {
+    const data = await res.json()
+    console.log('Svar från servern:', data)
+    return data.data
+  }
+
+  console.error('Misslyckades med att hämta AI-svar:', res.status)
+  return 'Kunde inte hämta svar från AI.'
+}

@@ -1,6 +1,6 @@
 import { loadQARefineChain } from 'langchain/chains'
 import { Document } from 'langchain/document'
-import { OpenAIEmbeddings } from 'langchain/embeddings'
+import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
 import { OpenAI } from 'langchain/llms/openai'
 import { StructuredOutputParser } from 'langchain/output_parsers'
 import { PromptTemplate } from 'langchain/prompts'
@@ -76,3 +76,5 @@ const qa = async (question, entries) => {
 
   return res.output_text
 }
+
+export { qa }
