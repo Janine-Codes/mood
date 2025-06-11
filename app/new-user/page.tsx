@@ -7,7 +7,7 @@ const createNewUser = async () => {
 
   if (!user) {
     console.error('[NewUser] No user found via Clerk.')
-    return redirect('/sign-in') // om du vill skicka tillbaka
+    redirect('/sign-in')
   }
 
   const match = await prisma.user.findUnique({

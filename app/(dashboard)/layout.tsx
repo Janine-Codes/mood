@@ -11,6 +11,7 @@ type Props = {
 const links = [
   { href: '/', label: 'Home' },
   { href: '/journal', label: 'Journal' },
+  { href: '/history', label: 'History' },
 ]
 
 const DashboardLayout = ({ children }: Props) => {

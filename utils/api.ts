@@ -3,29 +3,40 @@ const createURL = (path: any) => {
 }
 
 export const updateEntry = async (id: any, content: any) => {
-  const res = await fetch(
-    new Request(createURL(`/api/journal/${id}`), {
-      method: 'PATCH',
-      body: JSON.stringify({ content }),
-    })
-  )
+  try {
+    const res = await fetch(
+      new Request(createURL(`/api/journal/${id}`), {
+        method: 'PATCH',
+        body: JSON.stringify({ content }),
+      })
+    )
 
-  if (res.ok) {
-    const data = await res.json()
-    return data.data
+    if (res.ok) {
+      const data = await res.json()
+      return data.data
+    }
+  } catch (error) {
+    console.log('update entry error:', error)
   }
 }
 
 export const createNewEntry = async () => {
-  const res = await fetch(
-    new Request(createURL('/api/journal'), {
-      method: 'POST',
-    })
-  )
-
-  if (res.ok) {
-    const data = await res.json()
-    return data.data
+  try {
+    const res = await fetch(
+      new Request(createURL('/api/journal'), {
+        method: 'POST',
+      })
+    )
+    console.log('ghelpp kmr du hit?!', res)
+    if (res.ok) {
+      const data = await res.json()
+      console.log({ data })
+      return data.data
+    } else {
+      console.log('kill me')
+    }
+  } catch (error) {
+    console.log('ERROR: ', error)
   }
 }
 
