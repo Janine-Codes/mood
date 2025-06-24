@@ -18,6 +18,8 @@ const getData = async () => {
     select: {
       sentimentScore: true,
       createdAt: true,
+      mood: true,
+      color: true,
     },
     orderBy: {
       createdAt: 'asc',
